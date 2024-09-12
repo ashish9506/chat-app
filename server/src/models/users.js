@@ -1,14 +1,32 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const usersSchema = new mongoose.Schema(
+const usersSchema = new Schema(
   {
-    email: String,
+    email: {
+      type: String,
+      lowercase: true,
+      unique: true,
+      required: true,
+    },
     name: String,
-    password: String,
+    password: { type: String, required: true },
+    gender: String,
   },
   {
-    timestamps: 1,
+    timestamps: true, // Enable timestamps
   }
 );
 
-module.exports = mongoose.model("Users", usersSchema);
+usersSchema.set('toJSON', {
+  virtuals: true,
+  transform: (doc, result) => {
+    const newRes = { ...result };
+    newRes.id = newRes._id;
+    delete newRes._id;
+    delete newRes.__v;
+    delete newRes.password;
+    return newRes;
+  }
+});
+
+module.exports = model("Users", usersSchema);
