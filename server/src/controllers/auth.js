@@ -1,5 +1,5 @@
 const UserModel = require("../models/users");
-const { generateHash } = require("../utils/auth");
+const { generateHash, matchPassword } = require("../utils/auth");
 const { generateToken } = require("../utils/jwt");
 
 exports.signUp = async (req, res, next) => {
@@ -35,7 +35,15 @@ exports.login = async (req, res, next) => {
     const user = await UserModel.findOne({ email });
 
     if (!user) {
-      const error = new Error("User doesn't exist");
+      const error = new Error("Please enter valid email and password");
+      error.statusCode = 400;
+      return next(error);
+    }
+
+    const isPassowordValid = matchPassword(password, user.password);
+
+    if (!isPassowordValid) {
+      const error = new Error("Please enter valid email and password");
       error.statusCode = 400;
       return next(error);
     }
