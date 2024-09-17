@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import "./App.css";
 import { SocketProvider, useSocket } from "./contexts/SocketContext";
-import LoginPage from "./containers/Public/LoginPage";
+import LoginPage from "./containers/Login";
 
 function App() {
   const { socket } = useSocket();
