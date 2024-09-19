@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { dispatch } from "@/redux/store";
-import { signIn } from "./slice";
+import { loginUser } from "./slice";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(signIn({ email, password }));
+    dispatch(loginUser({ email, password }));
   };
 
   return (
